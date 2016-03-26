@@ -74,5 +74,12 @@ Readme
             -   List All Specific Database Items Table Entries: 'http://localhost:8000/catalog/<category_name>.json' 
 
 
+Revisions
+
+    -   3/26/2016 - Line 149 prevented gdisconnect() from disconnecting due to non-existent access_token string
+                    Line 149 Changed:
+                        From: 'access_token = credentials.access_token'
+                        To: 'access_token = credentials'
+
 Contact
 		email address:	sensi501@gmail.com

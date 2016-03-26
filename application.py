@@ -99,9 +99,9 @@ def gconnect():
     login_session['email'] = data['email']
     login_session['provider'] = 'google'
 
-    user_id = getUserID(data["email"])
+    user_id = get_user_id(data["email"])
     if not user_id:
-        user_id = createUser(login_session)
+        user_id = create_user(login_session)
     login_session['user_id'] = user_id
 
     output = ''
@@ -114,9 +114,9 @@ def gconnect():
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
     return output
-
+    
 # Create User Database Entry Utilizing Flask Login Session Info
-def createUser(login_session):
+def create_user(login_session):
     newUser = User(name=login_session['username'], email=login_session[
                    'email'], picture=login_session['picture'])
     session.add(newUser)
@@ -125,12 +125,12 @@ def createUser(login_session):
     return user.id
 
 #   Get User Database Information
-def getUserInfo(user_id):
+def get_user_info(user_id):
     user = session.query(User).filter_by(id=user_id).one()
     return user
 
 # Get User ID(email address)
-def getUserID(email):
+def get_user_id(email):
     try:
         user = session.query(User).filter_by(email=email).one()
         return user.id
@@ -146,7 +146,7 @@ def gdisconnect():
             json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    access_token = credentials.access_token
+    access_token = credentials
     url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
